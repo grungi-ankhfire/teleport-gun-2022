@@ -19,8 +19,15 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        playerTransform.position = collision.GetContact(0).point;
-        Destroy(gameObject);
+        if (collision.collider.tag != "Bounce")
+        // Alternative : if (!collision.collider.CompareTag("Bounce"))
+        {
+            ContactPoint cp = collision.GetContact(0);
+            if (Vector3.Angle(cp.normal, Vector3.up) <= 45) {
+                playerTransform.position = cp.point;
+                Destroy(gameObject);
+            }
+        }
     }
 
 }
